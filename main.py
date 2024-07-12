@@ -28,7 +28,7 @@ def get_video_url():
 
         try:
             # Wait until the video tag is present
-            video_tag = WebDriverWait(driver, 10).until(
+            video_tag = WebDriverWait(driver, 20).until(  # Increased timeout to 20 seconds
                 EC.presence_of_element_located((By.TAG_NAME, "video"))
             )
 
@@ -41,12 +41,15 @@ def get_video_url():
                     video_src = source_tag.get_attribute('src') if source_tag else "Video source URL not found."
                 return jsonify({"video_src": video_src})
             else:
+                app.logger.error("Video tag not found.")
                 return jsonify({"error": "Video tag not found."}), 404
         except Exception as e:
+            app.logger.error(f"Error while waiting for the video tag: {str(e)}")
             return jsonify({"error": f"An error occurred while waiting for the video tag: {str(e)}"}), 500
         finally:
             driver.quit()  # Always quit the driver to close the browser session
     except Exception as e:
+        app.logger.error(f"General error occurred: {str(e)}")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
