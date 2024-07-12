@@ -5,8 +5,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 import random
 from selenium.webdriver.support import expected_conditions as EC
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/videoUrl', methods=['GET'])
 def get_video_url():
@@ -50,4 +52,4 @@ def get_video_url():
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
-  app.run(port=random.randint(2000, 9000), debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=False)
