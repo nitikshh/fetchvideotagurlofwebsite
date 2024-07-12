@@ -50,4 +50,4 @@ def get_video_url():
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=random.randint(2000, 9000), debug=True)
+  app.run(port=random.randint(2000, 9000), debug=True)
